@@ -43,7 +43,6 @@ public class DetailsController {
     }
     String scrapedData = detailsService.getStockQuote(symbol);
     telegramService.sendStockDetail(scrapedData);
-
   }
 
   /**

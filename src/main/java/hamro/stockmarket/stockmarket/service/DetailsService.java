@@ -11,21 +11,20 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Objects;
 
-
 /**
- * Service class responsible for retrieving stock market details.
- * Author: [Aashish karki]
+ * Service class responsible for retrieving stock market details. Author: [Aashish karki]
  */
 @Service
 public class DetailsService {
-  private static final Logger log = LoggerFactory.getLogger(TelegramService.class);
+  private static final Logger log = LoggerFactory.getLogger(DetailsService.class);
 
   /**
    * Retrieves details of a stock based on the provided symbol from mero lagani.
    *
    * @param symbol The symbol of the stock to fetch details for.
    * @return A string containing various details of the stock.
-   * @throws NotFoundException If the stock symbol is not found or an error occurs during the process.
+   * @throws NotFoundException If the stock symbol is not found or an error occurs during
+   *                           the process.
    */
   public String getStockQuote(String symbol) {
     try {
@@ -77,8 +76,8 @@ public class DetailsService {
           + "\n" + "PBV: " + pbv + "\n" + "Market Capitalization: " + marketCap;
 
       log.info("result: {} ", result);
-      return result;
 
+      return result;
     } catch (IOException e) {
       throw new NotFoundException("Stock symbol not found" + e.getMessage());
     }
