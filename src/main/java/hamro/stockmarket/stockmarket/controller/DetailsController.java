@@ -1,8 +1,8 @@
 package hamro.stockmarket.stockmarket.controller;
 
 import hamro.stockmarket.stockmarket.excpetion.NotFoundException;
-import hamro.stockmarket.stockmarket.service.DetailsService;
-import hamro.stockmarket.stockmarket.service.TelegramService;
+import hamro.stockmarket.stockmarket.service.MeroLaganiScrapperService;
+import hamro.stockmarket.stockmarket.service.OneWayTelegramService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -15,19 +15,19 @@ import java.io.IOException;
  */
 @RestController
 public class DetailsController {
-  private final DetailsService detailsService;
-  private final TelegramService telegramService;
+  private final MeroLaganiScrapperService meroLaganiScrapperService;
+  private final OneWayTelegramService oneWayTelegramService;
 
   /**
    * Constructs a new DetailsController with the specified services.
    *
-   * @param detailsService  The service for retrieving stock market details.
-   * @param telegramService The service for sending messages via Telegram.
+   * @param meroLaganiScrapperService  The service for retrieving stock market details.
+   * @param oneWayTelegramService The service for sending messages via Telegram.
    */
-  public DetailsController(DetailsService detailsService,
-      TelegramService telegramService) {
-    this.detailsService = detailsService;
-    this.telegramService = telegramService;
+  public DetailsController(MeroLaganiScrapperService meroLaganiScrapperService,
+      OneWayTelegramService oneWayTelegramService) {
+    this.meroLaganiScrapperService = meroLaganiScrapperService;
+    this.oneWayTelegramService = oneWayTelegramService;
   }
 
   /**
@@ -41,8 +41,8 @@ public class DetailsController {
     if (checkNullAndEmpty(symbol)) {
       throw new NotFoundException("symbol was not found");
     }
-    String scrapedData = detailsService.getStockQuote(symbol);
-    telegramService.sendStockDetail(scrapedData);
+    String scrapedData = meroLaganiScrapperService.getStockQuote(symbol);
+    oneWayTelegramService.sendStockDetail(scrapedData);
   }
 
   /**

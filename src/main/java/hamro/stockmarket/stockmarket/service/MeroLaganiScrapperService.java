@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,8 +16,9 @@ import java.util.Objects;
  * Service class responsible for retrieving stock market details. Author: [Aashish karki]
  */
 @Service
-public class DetailsService {
-  private static final Logger log = LoggerFactory.getLogger(DetailsService.class);
+public class MeroLaganiScrapperService {
+  private static final Logger log = LoggerFactory.getLogger(
+      MeroLaganiScrapperService.class);
 
   /**
    * Retrieves details of a stock based on the provided symbol from mero lagani.
@@ -26,9 +28,10 @@ public class DetailsService {
    * @throws NotFoundException If the stock symbol is not found or an error occurs during
    *                           the process.
    */
+  @Retryable(interceptor = "retryData", retryFor = IOException.class)
   public String getStockQuote(String symbol) {
     try {
-      String apiUrl = String.format("http://merolagani.com/CompanyDetail.aspx?symbol=%s",
+      String apiUrl = String.format("https://merolagani.com/CompanyDetail.aspx?symbol=%s",
           symbol);
       Document document = Jsoup.connect(apiUrl).get();
 

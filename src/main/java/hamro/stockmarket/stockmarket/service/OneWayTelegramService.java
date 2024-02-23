@@ -18,8 +18,8 @@ import java.nio.charset.StandardCharsets;
  * Author: [Aashish karki]
  */
 @Service
-public class TelegramService {
-  private static final Logger log = LoggerFactory.getLogger(TelegramService.class);
+public class OneWayTelegramService {
+  private static final Logger log = LoggerFactory.getLogger(OneWayTelegramService.class);
 
   @Value("${telegram.apiKey}")
   private String TELEGRAM_BOT_TOKEN;

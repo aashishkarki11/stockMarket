@@ -33,9 +33,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.json:json:20231013' // or the latest version available
 
-    //webScrapping
-
-    implementation 'org.jsoup:jsoup:1.14.3' // or the latest version available
+    implementation 'org.jsoup:jsoup:1.15.3' // or the latest version available
+    /*re-try dependencies*/
+    implementation 'org.springframework.retry:spring-retry:2.0.5'
 
 }
 
