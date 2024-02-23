@@ -21,8 +21,8 @@ public class DetailsController {
   /**
    * Constructs a new DetailsController with the specified services.
    *
-   * @param meroLaganiScrapperService  The service for retrieving stock market details.
-   * @param oneWayTelegramService The service for sending messages via Telegram.
+   * @param meroLaganiScrapperService The service for retrieving stock market details.
+   * @param oneWayTelegramService     The service for sending messages via Telegram.
    */
   public DetailsController(MeroLaganiScrapperService meroLaganiScrapperService,
       OneWayTelegramService oneWayTelegramService) {

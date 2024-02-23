@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Service class responsible for retrieving stock market details. Author: [Aashish karki]
+ * Service class responsible for retrieving stock market details.
+ * Author: [Aashish karki]
  */
 @Service
 public class MeroLaganiScrapperService {
@@ -29,7 +30,7 @@ public class MeroLaganiScrapperService {
    *                           the process.
    */
   @Retryable(interceptor = "retryData", retryFor = IOException.class)
-  public String getStockQuote(String symbol) {
+  public static String getStockQuote(String symbol) {
     try {
       String apiUrl = String.format("https://merolagani.com/CompanyDetail.aspx?symbol=%s",
           symbol);

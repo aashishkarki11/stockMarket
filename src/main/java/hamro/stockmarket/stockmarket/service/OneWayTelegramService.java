@@ -3,6 +3,7 @@ package hamro.stockmarket.stockmarket.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -33,6 +34,7 @@ public class OneWayTelegramService {
    * @param data Stock details to be sent.
    * @throws IOException if an I/O error occurs while sending the message.
    */
+  @Retryable(interceptor = "retryData", retryFor = {IOException.class})
   public void sendStockDetail(String data) throws IOException {
     String urlString = String.format("https://api.telegram.org/bot%s/sendMessage",
         TELEGRAM_BOT_TOKEN);

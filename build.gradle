@@ -37,6 +37,9 @@ dependencies {
     /*re-try dependencies*/
     implementation 'org.springframework.retry:spring-retry:2.0.5'
 
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.21'
+    implementation 'org.telegram:telegrambots:6.5.0'
+
 }
 
 tasks.named('test') {
