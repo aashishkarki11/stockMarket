@@ -1,5 +1,6 @@
 package hamro.stockmarket.stockmarket.service;
 
+import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,13 +20,13 @@ import java.io.IOException;
  */
 @Component
 public class StockScheduleService {
-  private final OneWayTelegramService oneWayTelegramService;
+  private final SendMessageService sendMessageService;
 
   @Value("${telegram.symbol}")
   private String stockSymbol;
 
-  public StockScheduleService(OneWayTelegramService oneWayTelegramService) {
-    this.oneWayTelegramService = oneWayTelegramService;
+  public StockScheduleService(SendMessageService sendMessageService) {
+    this.sendMessageService = sendMessageService;
   }
 
   /**
@@ -41,6 +42,6 @@ public class StockScheduleService {
   @Scheduled(initialDelay = 10000, fixedDelay = 10000)
   public void schedulerStockData() throws IOException {
     String scrapedData = MeroLaganiScrapperService.getStockQuote(stockSymbol);
-    oneWayTelegramService.sendStockDetail(scrapedData);
+    sendMessageService.sendStockDetail(scrapedData);
   }
 }

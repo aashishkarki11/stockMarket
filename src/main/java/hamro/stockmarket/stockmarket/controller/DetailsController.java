@@ -1,8 +1,8 @@
 package hamro.stockmarket.stockmarket.controller;
 
-import hamro.stockmarket.stockmarket.excpetion.NotFoundException;
+import hamro.stockmarket.stockmarket.exception.NotFoundException;
 import hamro.stockmarket.stockmarket.service.MeroLaganiScrapperService;
-import hamro.stockmarket.stockmarket.service.OneWayTelegramService;
+import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,18 +16,18 @@ import java.io.IOException;
 @RestController
 public class DetailsController {
   private final MeroLaganiScrapperService meroLaganiScrapperService;
-  private final OneWayTelegramService oneWayTelegramService;
+  private final SendMessageService sendMessageService;
 
   /**
    * Constructs a new DetailsController with the specified services.
    *
    * @param meroLaganiScrapperService The service for retrieving stock market details.
-   * @param oneWayTelegramService     The service for sending messages via Telegram.
+   * @param sendMessageService     The service for sending messages via Telegram.
    */
   public DetailsController(MeroLaganiScrapperService meroLaganiScrapperService,
-      OneWayTelegramService oneWayTelegramService) {
+      SendMessageService sendMessageService) {
     this.meroLaganiScrapperService = meroLaganiScrapperService;
-    this.oneWayTelegramService = oneWayTelegramService;
+    this.sendMessageService = sendMessageService;
   }
 
   /**
@@ -42,7 +42,7 @@ public class DetailsController {
       throw new NotFoundException("symbol was not found");
     }
     String scrapedData = meroLaganiScrapperService.getStockQuote(symbol);
-    oneWayTelegramService.sendStockDetail(scrapedData);
+    sendMessageService.sendStockDetail(scrapedData);
   }
 
   /**

@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.excpetion;
+package hamro.stockmarket.stockmarket.exception;
 
 import lombok.Getter;
 

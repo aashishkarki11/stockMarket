@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.service;
+package hamro.stockmarket.stockmarket.Telegram.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +19,8 @@ import java.nio.charset.StandardCharsets;
  * Author: [Aashish karki]
  */
 @Service
-public class OneWayTelegramService {
-  private static final Logger log = LoggerFactory.getLogger(OneWayTelegramService.class);
+public class SendMessageService {
+  private static final Logger log = LoggerFactory.getLogger(SendMessageService.class);
 
   @Value("${telegram.apiKey}")
   private String TELEGRAM_BOT_TOKEN;

@@ -1,6 +1,7 @@
-package hamro.stockmarket.stockmarket.service;
+package hamro.stockmarket.stockmarket.Telegram.service;
 
-import hamro.stockmarket.stockmarket.excpetion.NotFoundException;
+import hamro.stockmarket.stockmarket.Telegram.exception.DataNotFoundException;
+import hamro.stockmarket.stockmarket.service.MeroLaganiScrapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -55,7 +56,7 @@ public class PollingTelegramService extends TelegramLongPollingBot {
       execute(sendMessage);
     } catch (Exception e) {
       log.error("Error sending message : {} ", e.getMessage());
-      throw new NotFoundException("Message was not found: " + e.getMessage());
+      throw new DataNotFoundException("Message was not found: " + e.getMessage());
     }
   }
 }

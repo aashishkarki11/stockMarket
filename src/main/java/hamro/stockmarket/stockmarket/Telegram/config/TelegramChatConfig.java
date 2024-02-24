@@ -1,6 +1,6 @@
-package hamro.stockmarket.stockmarket.config;
+package hamro.stockmarket.stockmarket.Telegram.config;
 
-import hamro.stockmarket.stockmarket.service.PollingTelegramService;
+import hamro.stockmarket.stockmarket.Telegram.service.PollingTelegramService;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
