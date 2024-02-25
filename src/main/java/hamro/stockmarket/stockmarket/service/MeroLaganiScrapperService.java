@@ -74,10 +74,21 @@ public class MeroLaganiScrapperService {
       String marketCap = Objects.requireNonNull(marketCapElement).text();
       log.info("Market Capitalization: {}", marketCap);
 
-      String result = "Sector: " + sector + "\n" + "percentage Change: " + change + "\n"
-          + "52 Weeks High - Low: " + weeksHighLow + "\n" + "120 Day Average: "
-          + avg120Day + "\n" + "P/E Ratio: " + peRatio + "\n" + "Book Value: " + bookValue
-          + "\n" + "PBV: " + pbv + "\n" + "Market Capitalization: " + marketCap;
+      String result = """
+          Sector: %s
+          Percentage Change: %s
+          52 Weeks High - Low: %s
+          120 Day Average: %s
+          P/E Ratio: %s
+          Book Value: %s
+          PBV: %s
+          Market Capitalization: %s
+          """.formatted(sector, change, weeksHighLow, avg120Day, peRatio, bookValue, pbv,
+          marketCap);
+
+      if (sector.isEmpty()) {
+        result = "Wrong symbol: " + symbol;
+      }
 
       log.info("result: {} ", result);
 
