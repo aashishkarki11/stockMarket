@@ -34,7 +34,7 @@ public class SendMessageService {
    * @param data Stock details to be sent.
    * @throws IOException if an I/O error occurs while sending the message.
    */
-  @Retryable(interceptor = "retryData", retryFor = {IOException.class})
+  @Retryable(interceptor = "retryData", retryFor = { IOException.class })
   public void sendStockDetail(String data) throws IOException {
     String urlString = String.format("https://api.telegram.org/bot%s/sendMessage",
         TELEGRAM_BOT_TOKEN);
@@ -43,8 +43,7 @@ public class SendMessageService {
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
 
-    String text = "Stock Details:\n" + data;
-    String postData = String.format("chat_id=%s&text=%s", TELEGRAM_CHAT_ID, text);
+    String postData = String.format("chat_id=%s&text=%s", TELEGRAM_CHAT_ID, data);
 
     log.info("post Data : {}", postData);
     byte[] postDataBytes = postData.getBytes(StandardCharsets.UTF_8);

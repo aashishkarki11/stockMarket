@@ -75,6 +75,8 @@ public class MeroLaganiScrapperService {
       log.info("Market Capitalization: {}", marketCap);
 
       String result = """
+          Stock Details:
+          
           Sector: %s
           Percentage Change: %s
           52 Weeks High - Low: %s
