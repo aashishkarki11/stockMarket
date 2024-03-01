@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.Google.Exception;
+package hamro.stockmarket.stockmarket.Google.exception;
 
 /**
  * Custom exception class for token generation errors during Google OAuth authentication.

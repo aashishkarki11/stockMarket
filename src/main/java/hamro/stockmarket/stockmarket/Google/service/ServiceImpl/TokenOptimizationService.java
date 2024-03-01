@@ -2,7 +2,7 @@ package hamro.stockmarket.stockmarket.Google.service.ServiceImpl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamro.stockmarket.stockmarket.Google.Exception.NotFoundException;
+import hamro.stockmarket.stockmarket.Google.exception.NotFoundException;
 import hamro.stockmarket.stockmarket.Google.dto.UserDetailsDto;
 import hamro.stockmarket.stockmarket.util.ValidationUtil;
 import org.springframework.stereotype.Service;

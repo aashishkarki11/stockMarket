@@ -1,7 +1,7 @@
-package hamro.stockmarket.stockmarket.Google.Controller;
+package hamro.stockmarket.stockmarket.Google.controller;
 
-import hamro.stockmarket.stockmarket.Google.Exception.ErrorPerformingException;
-import hamro.stockmarket.stockmarket.Google.Exception.TokenGenerationException;
+import hamro.stockmarket.stockmarket.Google.exception.ErrorPerformingException;
+import hamro.stockmarket.stockmarket.Google.exception.TokenGenerationException;
 import hamro.stockmarket.stockmarket.Google.dto.GoogleResponseDto;
 import hamro.stockmarket.stockmarket.Google.service.GoogleAuthService;
 import hamro.stockmarket.stockmarket.Google.service.ServiceImpl.TokenOptimizationService;

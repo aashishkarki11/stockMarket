@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.Google.Exception;
+package hamro.stockmarket.stockmarket.Google.exception;
 
 import lombok.Getter;
 

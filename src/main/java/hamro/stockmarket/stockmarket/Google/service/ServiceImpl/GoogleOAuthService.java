@@ -5,7 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
-import hamro.stockmarket.stockmarket.Google.Exception.TokenGenerationException;
+import hamro.stockmarket.stockmarket.Google.exception.TokenGenerationException;
 import hamro.stockmarket.stockmarket.Google.dto.GoogleResponseDto;
 import hamro.stockmarket.stockmarket.Google.service.GoogleAuthService;
 import org.springframework.beans.factory.annotation.Value;
