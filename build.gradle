@@ -24,21 +24,32 @@ repositories {
 dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 //    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.liquibase:liquibase-core'
-    compileOnly 'org.projectlombok:lombok'
 //    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
-//    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.json:json:20231013' // or the latest version available
 
-    implementation 'org.jsoup:jsoup:1.15.3' // or the latest version available
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.json:json:20231013'
+
+    /*Scrapping dependency*/
+    implementation 'org.jsoup:jsoup:1.15.3'
+
     /*re-try dependencies*/
     implementation 'org.springframework.retry:spring-retry:2.0.5'
 
     runtimeOnly 'org.aspectj:aspectjweaver:1.9.21'
+
+    /*Telegram Dependency*/
     implementation 'org.telegram:telegrambots:6.5.0'
+
+    /*google api dependencies*/
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.20.0'
+    implementation 'com.google.http-client:google-http-client-jackson2:1.32.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 }
 
