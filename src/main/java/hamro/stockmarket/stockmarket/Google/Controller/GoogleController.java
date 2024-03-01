@@ -4,6 +4,7 @@ import hamro.stockmarket.stockmarket.Google.Exception.ErrorPerformingException;
 import hamro.stockmarket.stockmarket.Google.Exception.TokenGenerationException;
 import hamro.stockmarket.stockmarket.Google.dto.GoogleResponseDto;
 import hamro.stockmarket.stockmarket.Google.service.GoogleAuthService;
+import hamro.stockmarket.stockmarket.Google.service.ServiceImpl.TokenOptimizationService;
 import hamro.stockmarket.stockmarket.util.ValidationUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,22 +12,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller class for handling Google OAuth2 callback requests.
- * Author: [Aashish karki]
+ * Controller class for handling Google OAuth2 callback requests. Author: [Aashish karki]
  */
 @RestController
 @RequestMapping("/oauth2/callback")
 public class GoogleController {
   private final GoogleAuthService googleOAuthService;
+  private final TokenOptimizationService idTokenDecoderService;
 
   /**
    * Constructor injection of GoogleAuthService.
    *
-   * @param googleOAuthService The service responsible for handling Google OAuth
-   *                           operations.
+   * @param googleOAuthService    The service responsible for handling Google OAuth
+   *                              operations.
+   * @param idTokenDecoderService
    */
-  public GoogleController(GoogleAuthService googleOAuthService) {
+  public GoogleController(GoogleAuthService googleOAuthService,
+      TokenOptimizationService idTokenDecoderService) {
     this.googleOAuthService = googleOAuthService;
+    this.idTokenDecoderService = idTokenDecoderService;
   }
 
   /**
@@ -47,6 +51,7 @@ public class GoogleController {
 
       GoogleResponseDto googleResponseDto = googleOAuthService.getAccessToken(code);
       String accessToken = googleResponseDto.getAccessToken();
+      idTokenDecoderService.decodeIdToken(googleResponseDto.getIdToken());
       if (ValidationUtil.checkIsNullAndEmpty(accessToken)) {
         throw new TokenGenerationException("Access token is null : {}");
       }
