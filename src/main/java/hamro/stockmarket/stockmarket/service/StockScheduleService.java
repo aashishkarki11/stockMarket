@@ -1,6 +1,7 @@
 package hamro.stockmarket.stockmarket.service;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
+import hamro.stockmarket.stockmarket.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +62,23 @@ public class StockScheduleService {
       ipoNewsService.getIpoNews();
     } catch (IOException e) {
       log.error("IOException : {}", e.getMessage());
+    }
+  }
+
+  /**
+   * Scheduled method to run every Sunday to Thursday from 11 am to 3 pm with a delay of
+   * 10 minutes.
+   * <p>
+   * This method is annotated with {@code @Scheduled} and uses a cron expression to
+   * specify the schedule.
+   * </p>
+   */
+  @Scheduled(cron = "0 0/10 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
+  public void getStockDataLive() {
+    try {
+      IpoNewsService.getLiveMarketData();
+    } catch (Exception e) {
+      throw new NotFoundException("Error getting Live Market Data" + e.getMessage());
     }
   }
 }
