@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="202403011339" author="ShareMarket">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+
+    <include file="user.xml" relativeToChangelogFile="true"/>
+    <include file="stock.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="202403011426" author="ShareMarket">
+        <addColumn tableName="users">
+            <column name="email" type="VARCHAR(255)" defaultValue=""/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="202403011535" author="ShareMarket">
+        <addColumn tableName="users">
+            <column name="is_active" type="BOOLEAN" defaultValue="false"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

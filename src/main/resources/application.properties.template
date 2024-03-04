@@ -1,0 +1,23 @@
+#Telegram Configurations
+telegram.apiKey=
+telegram.chatId=
+telegram.userName=
+telegram.symbol=
+
+#Google Configurations
+google.applicationName=StockMarket
+google.clientSecret=
+google.clientId=
+google.redirectUrl=
+google.scopes=profile,email,https://www.googleapis.com/auth/calendar,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/gmail.readonly
+
+#DataBase
+spring.datasource.url=jdbc:postgresql://localhost:5432/share_market
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=update
+
+#liquibase
+spring.liquibase.change-log=classpath:/changelog/master-changelog.xml

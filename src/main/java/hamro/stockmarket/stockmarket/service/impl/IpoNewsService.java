@@ -1,6 +1,9 @@
-package hamro.stockmarket.stockmarket.service;
+package hamro.stockmarket.stockmarket.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
+import hamro.stockmarket.stockmarket.dto.StockDto;
+import hamro.stockmarket.stockmarket.service.StockService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,10 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Service class responsible for retrieving New Ipo List and sending Message On Telegram.
@@ -26,9 +26,12 @@ import java.util.Map;
 public class IpoNewsService {
   private static final Logger log = LoggerFactory.getLogger(IpoNewsService.class);
   private final SendMessageService sendMessageService;
+  private static final ObjectMapper objectMapper = new ObjectMapper();
+  private  final StockService stockService;
 
-  public IpoNewsService(SendMessageService sendMessageService) {
+  public IpoNewsService(SendMessageService sendMessageService, StockService stockService) {
     this.sendMessageService = sendMessageService;
+    this.stockService = stockService;
   }
 
   /**
@@ -72,7 +75,8 @@ public class IpoNewsService {
    * maps. The inner maps contain column headers as keys and respective data values as
    * values. If the data cannot be retrieved, an empty map is returned.
    */
-  public static Map<String, Map<String, String>> getLiveMarketData() {
+  public  Map<String, Map<String, String>> getLiveMarketData() {
+    StockDto stockDto = new StockDto();
     String apiUrl = "https://merolagani.com/LatestMarket.aspx";
     try {
       Document document = Jsoup.connect(apiUrl).get();
@@ -110,6 +114,10 @@ public class IpoNewsService {
           }
         }
         log.info("stockData : {}", stockDataMap);
+        String liveData = objectMapper.writeValueAsString(stockDataMap);
+        stockDto.setStockDetails(liveData);
+        stockService.createStock(stockDto);
+
         return stockDataMap;
       } else {
         log.error("Table not found on the page.");

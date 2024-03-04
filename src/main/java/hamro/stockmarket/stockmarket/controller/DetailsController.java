@@ -2,7 +2,7 @@ package hamro.stockmarket.stockmarket.controller;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
-import hamro.stockmarket.stockmarket.service.MeroLaganiScrapperService;
+import hamro.stockmarket.stockmarket.service.impl.MeroLaganiScrapperService;
 import hamro.stockmarket.stockmarket.util.ValidationUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

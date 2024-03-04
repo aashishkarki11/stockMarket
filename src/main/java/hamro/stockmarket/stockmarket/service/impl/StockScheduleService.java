@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.service;
+package hamro.stockmarket.stockmarket.service.impl;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
@@ -26,9 +26,7 @@ public class StockScheduleService {
   private final SendMessageService sendMessageService;
   @Value("${telegram.symbol}")
   private String stockSymbol;
-
   private static final Logger log = LoggerFactory.getLogger(SendMessageService.class);
-
   private final IpoNewsService ipoNewsService;
 
   public StockScheduleService(SendMessageService sendMessageService,
@@ -76,7 +74,7 @@ public class StockScheduleService {
   @Scheduled(cron = "0 0/10 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
   public void getStockDataLive() {
     try {
-      IpoNewsService.getLiveMarketData();
+      ipoNewsService.getLiveMarketData();
     } catch (Exception e) {
       throw new NotFoundException("Error getting Live Market Data" + e.getMessage());
     }

@@ -1,7 +1,7 @@
 package hamro.stockmarket.stockmarket.Telegram.service;
 
 import hamro.stockmarket.stockmarket.Telegram.exception.DataNotFoundException;
-import hamro.stockmarket.stockmarket.service.MeroLaganiScrapperService;
+import hamro.stockmarket.stockmarket.service.impl.MeroLaganiScrapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

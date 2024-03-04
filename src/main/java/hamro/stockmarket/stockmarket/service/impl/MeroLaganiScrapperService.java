@@ -1,4 +1,4 @@
-package hamro.stockmarket.stockmarket.service;
+package hamro.stockmarket.stockmarket.service.impl;
 
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
 import org.jsoup.Jsoup;
