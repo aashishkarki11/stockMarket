@@ -46,4 +46,8 @@ public class User {
 
   private String isActive;
 
+  @ManyToOne
+  @JoinColumn(name = "stock_id")
+  private Stock stock;
+
 }
