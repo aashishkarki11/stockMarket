@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -41,4 +42,5 @@ public class Stock {
   @Column(name = "api_key", columnDefinition = "uuid DEFAULT uuid_generate_v4()", insertable = false, updatable = false)
   private UUID apiKey;
 
+  private LocalDateTime createdAt;
 }

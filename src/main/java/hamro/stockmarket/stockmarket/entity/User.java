@@ -14,11 +14,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 /**
- * Represents a user entity in the stock market system.
- * This entity is mapped to the "users" table in the database and contains fields such as
- * the unique identifier (id), UUID, email, user role, user details, and activation
- * status.
- * Author: [Aashish Karki]
+ * Represents a user entity in the stock market system. This entity is mapped to the
+ * "users" table in the database and contains fields such as the unique identifier (id),
+ * UUID, email, user role, user details, and activation status. Author: [Aashish Karki]
  */
 @Entity
 @Builder
@@ -44,10 +42,6 @@ public class User {
   @JdbcTypeCode(SqlTypes.JSON)
   private String userDetails;
 
-  private String isActive;
-
-  @ManyToOne
-  @JoinColumn(name = "stock_id")
-  private Stock stock;
+  private Boolean isActive;
 
 }

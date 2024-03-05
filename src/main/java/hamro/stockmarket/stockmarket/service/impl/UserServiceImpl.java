@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
       User isUserPresent = userRecordRepo.findByEmail(userDetailsDto.getEmail());
       if (isUserPresent == null) {
         user.setRole(Role.USER);
-        user.setIsActive(userDetailsDto.getEmailVerified().toString());
+        user.setIsActive(userDetailsDto.getEmailVerified());
         user.setEmail(userDetailsDto.getEmail());
         userRecordRepo.save(user);
       }

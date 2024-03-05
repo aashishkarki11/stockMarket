@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Auth URL</title>
+</head>
+<body>
+<button id="getUrlButton" onclick="openAuthPopup()">Get Auth URL</button>
+
+<script>
+    function openAuthPopup() {
+        var clientId = "441315144523-1sqr3n8fc7j3a3lp9ehdobid3avmcet0.apps.googleusercontent.com";
+        var redirectUri = "http://localhost:8080/oauth2/callback"; // Change "/redirect" to your actual redirect URI
+        var state = {}; // Change state as needed
+        const scopes = [
+            'profile', // Grants access to basic profile information
+            'email' // Grants access to the user's email address
+        ];
+
+        const authUrl = 'https://accounts.google.com/o/oauth2/auth' +
+            '?client_id=' + encodeURIComponent(clientId) +
+            '&redirect_uri=' + encodeURIComponent(redirectUri) +
+            '&response_type=code' +
+            '&access_type=offline' +
+            '&prompt=consent' +
+            '&scope=' + encodeURIComponent(scopes.join(' '));
+
+        // Open the authorization URL in a popup window
+        var popup = window.open(authUrl, 'authPopup', 'width=500,height=600');
+
+        // Handle popup window events if needed
+        if (popup) {
+            popup.focus();
+        } else {
+            alert('Popup window blocked. Please allow popups for this site.');
+        }
+    }
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class PollingTelegramService extends TelegramLongPollingBot {
    * provided bot token.
    */
   public PollingTelegramService() {
-    super("XYZ");
+    super("6511977594:AAF6k9uvDbJOlE-lSyXwzY8wYGlmH2ri4yQ");
   }
 
   /**
@@ -35,7 +35,7 @@ public class PollingTelegramService extends TelegramLongPollingBot {
    */
   @Override
   public String getBotUsername() {
-    return "XYZ";
+    return "Nepsestock_bot";
   }
 
   /**
