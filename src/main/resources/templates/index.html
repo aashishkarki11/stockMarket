@@ -11,7 +11,7 @@
 <script>
     function openAuthPopup() {
         var clientId = "441315144523-1sqr3n8fc7j3a3lp9ehdobid3avmcet0.apps.googleusercontent.com";
-        var redirectUri = "http://localhost:8080/oauth2/callback";
+        var redirectUri = window.parent.location.origin + "/oauth2/callback";
         const scopes = [
             'profile',
             'email'
