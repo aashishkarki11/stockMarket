@@ -8,6 +8,7 @@
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
         }
         th, td {
             border: 1px solid #dddddd;
@@ -17,9 +18,39 @@
         th {
             background-color: #f2f2f2;
         }
+        #search-input {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #search-btn {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #search-btn:hover {
+            background-color: #45a049;
+        }
+        .search-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            float: right;
+        }
     </style>
 </head>
 <body>
+
+<!-- Add search input and button -->
+<div class="search-container">
+    <input type="text" id="search-input" placeholder="Search symbol...">
+    <button id="search-btn">Search</button>
+</div>
 
 <table id="data-table">
     <thead>
@@ -28,10 +59,8 @@
         <th>High</th>
         <th>% Change</th>
         <th>Low</th>
-<!--        <th>Diff.</th>-->
         <th>LTP</th>
         <th>Qty.</th>
-<!--        <th>PClose</th>-->
         <th>Open</th>
     </tr>
     </thead>
@@ -41,14 +70,33 @@
         <td th:text="${row.value['High']}"></td>
         <td th:text="${row.value['% Change']}"></td>
         <td th:text="${row.value['Low']}"></td>
-<!--        <td th:text="${row.value['Diff']}"></td>-->
         <td th:text="${row.value['LTP']}"></td>
         <td th:text="${row.value['Qty.']}"></td>
-<!--        <td th:text="${row.value['PClose']}"></td>-->
         <td th:text="${row.value['Open']}"></td>
     </tr>
     </tbody>
 </table>
+
+
+<script>
+    document.getElementById('search-btn').addEventListener('click', function() {
+        var input = document.getElementById('search-input').value.toUpperCase();
+        var table = document.getElementById('data-table');
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < rows.length; i++) {
+            var symbol = rows[i].getElementsByTagName('td')[0];
+            if (symbol) {
+                var textValue = symbol.textContent || symbol.innerText;
+                if (textValue.toUpperCase().indexOf(input) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
