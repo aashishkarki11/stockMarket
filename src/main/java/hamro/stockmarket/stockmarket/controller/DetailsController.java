@@ -1,11 +1,9 @@
 package hamro.stockmarket.stockmarket.controller;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
-import hamro.stockmarket.stockmarket.entity.Stock;
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
-import hamro.stockmarket.stockmarket.service.StockService;
+import hamro.stockmarket.stockmarket.service.impl.IpoNewsService;
 import hamro.stockmarket.stockmarket.service.impl.MeroLaganiScrapperService;
-import hamro.stockmarket.stockmarket.service.impl.StockScheduleService;
 import hamro.stockmarket.stockmarket.util.ValidationUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,21 +20,18 @@ import java.io.IOException;
 @Controller
 public class DetailsController {
   private final SendMessageService sendMessageService;
-  private final StockScheduleService stockScheduleService;
-  private final StockService stockService;
+  private final IpoNewsService ipoNewsService;
 
   /**
    * Constructs a new DetailsController with the specified services.
    *
    * @param sendMessageService   The service for sending messages via Telegram.
-   * @param stockScheduleService
-   * @param stockService
+   * @param ipoNewsService
    */
   public DetailsController(SendMessageService sendMessageService,
-      StockScheduleService stockScheduleService, StockService stockService) {
+      IpoNewsService ipoNewsService) {
     this.sendMessageService = sendMessageService;
-    this.stockScheduleService = stockScheduleService;
-    this.stockService = stockService;
+    this.ipoNewsService = ipoNewsService;
   }
 
   /**
@@ -57,7 +52,7 @@ public class DetailsController {
   @GetMapping("/liveData")
   public String getLiveData(Model model) {
     try {
-      model.addAttribute("data", stockScheduleService.getStockDataLive());
+      model.addAttribute("data", ipoNewsService.getLiveMarketData());
       return "stock/live";
     } catch (Exception e) {
       throw new RuntimeException("hey error aayo");

@@ -1,7 +1,10 @@
 package hamro.stockmarket.stockmarket.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
+import hamro.stockmarket.stockmarket.dto.StockDto;
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
+import hamro.stockmarket.stockmarket.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Service class responsible for scheduling periodic retrieval of stock data and sending
@@ -28,13 +31,16 @@ public class StockScheduleService {
   private final SendMessageService sendMessageService;
   @Value("${telegram.symbol}")
   private String stockSymbol;
+  private static final ObjectMapper objectMapper = new ObjectMapper();
   private static final Logger log = LoggerFactory.getLogger(SendMessageService.class);
   private final IpoNewsService ipoNewsService;
+  private final StockService stockService;
 
   public StockScheduleService(SendMessageService sendMessageService,
-      IpoNewsService ipoNewsService) {
+      IpoNewsService ipoNewsService, StockService stockService) {
     this.sendMessageService = sendMessageService;
     this.ipoNewsService = ipoNewsService;
+    this.stockService = stockService;
   }
 
   /**
@@ -73,10 +79,17 @@ public class StockScheduleService {
    * specify the schedule.
    * </p>
    */
-  @Scheduled(cron = "0 0/5 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
-  public Map<String, Map<String, String>> getStockDataLive() {
+  @Scheduled(cron = "0 0/10 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
+  public void getStockDataLive() {
     try {
-      return ipoNewsService.getLiveMarketData();
+      StockDto stockDto = new StockDto();
+      Map<String, Map<String, String>> stockDataMap = ipoNewsService.getLiveMarketData();
+      String liveData = objectMapper.writeValueAsString(stockDataMap);
+      log.info("liveData : {}", liveData);
+
+      stockDto.setStockDetails(liveData);
+      stockDto.setLocalDateTime(LocalDateTime.now());
+      stockService.createStock(stockDto);
     } catch (Exception e) {
       throw new NotFoundException("Error getting Live Market Data" + e.getMessage());
     }

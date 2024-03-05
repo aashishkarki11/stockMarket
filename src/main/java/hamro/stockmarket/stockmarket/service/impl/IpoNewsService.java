@@ -1,8 +1,6 @@
 package hamro.stockmarket.stockmarket.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
-import hamro.stockmarket.stockmarket.dto.StockDto;
 import hamro.stockmarket.stockmarket.service.StockService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Service class responsible for retrieving New Ipo List and sending Message On Telegram.
@@ -27,10 +25,11 @@ import java.util.*;
 public class IpoNewsService {
   private static final Logger log = LoggerFactory.getLogger(IpoNewsService.class);
   private final SendMessageService sendMessageService;
-  private static final ObjectMapper objectMapper = new ObjectMapper();
-  private  final StockService stockService;
 
-  public IpoNewsService(SendMessageService sendMessageService, StockService stockService) {
+  private final StockService stockService;
+
+  public IpoNewsService(SendMessageService sendMessageService,
+      StockService stockService) {
     this.sendMessageService = sendMessageService;
     this.stockService = stockService;
   }
@@ -76,49 +75,47 @@ public class IpoNewsService {
    * maps. The inner maps contain column headers as keys and respective data values as
    * values. If the data cannot be retrieved, an empty map is returned.
    */
-  public  Map<String, Map<String, String>> getLiveMarketData() {
-    StockDto stockDto = new StockDto();
+  public Map<String, Map<String, String>> getLiveMarketData() {
     String apiUrl = "https://merolagani.com/LatestMarket.aspx";
+
     try {
       Document document = Jsoup.connect(apiUrl).get();
       Element table = document.selectFirst(
           "div#ctl00_ContentPlaceHolder1_LiveTrading table.table-hover");
+
       if (table != null) {
-        Element tableHeader = table.selectFirst("thead");
-        Element tableBody = table.selectFirst("tbody");
-        List<String> headers = new ArrayList<>();
-        if (tableHeader != null) {
-          for (Element th : tableHeader.select("th")) {
-            String headerText = th.text();
-            if (!headerText.isEmpty()) {
-              headers.add(headerText);
-            }
-          }
-        }
+        Elements rows = table.select("tbody tr");
+
         Map<String, Map<String, String>> stockDataMap = new HashMap<>();
-        if (tableBody != null) {
-          for (Element row : tableBody.select("tr")) {
+
+        for (Element row : rows) {
+          Elements cells = row.select("td");
+          if (cells.isEmpty())
+            continue;
+
+          String symbol = cells.get(0).select("a").text();
+          String cell1 = cells.get(1).text();
+          String cell2 = cells.get(2).text();
+          String cell3 = cells.get(3).text();
+          String cell4 = cells.get(4).text();
+          String cell5 = cells.get(5).text();
+          String cell6 = cells.get(6).text();
+
+          if (!symbol.isEmpty()) {
             Map<String, String> rowData = new HashMap<>();
-            String symbol = null;
-            int index = 0;
-            for (Element cell : row.select("td")) {
-              if (index == 0) {
-                symbol = cell.text();
-              } else {
-                rowData.put(headers.get(index), cell.text());
-              }
-              index++;
-            }
-            if (symbol != null) {
-              stockDataMap.put(symbol, rowData);
-            }
+            rowData.put("Symbol", symbol);
+            rowData.put("LTP", cell1);
+            rowData.put("% Change", cell2);
+            rowData.put("Open", cell5);
+            rowData.put("High", cell3);
+            rowData.put("Low", cell4);
+            rowData.put("Qty.", cell6);
+
+            stockDataMap.put(symbol, rowData);
           }
         }
+
         log.info("stockData : {}", stockDataMap);
-        String liveData = objectMapper.writeValueAsString(stockDataMap);
-        stockDto.setStockDetails(liveData);
-        stockDto.setLocalDateTime(LocalDateTime.now());
-        stockService.createStock(stockDto);
 
         return stockDataMap;
       } else {
@@ -127,6 +124,7 @@ public class IpoNewsService {
     } catch (IOException e) {
       log.error("Error fetching data from the URL: " + e.getMessage());
     }
+
     log.info("Empty Data sorry");
     return new HashMap<>();
   }
