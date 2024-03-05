@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data and Display in Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<table id="data-table">
+    <thead>
+    <tr>
+        <th>Stock</th>
+        <th>High</th>
+        <th>% Change</th>
+        <th>Low</th>
+<!--        <th>Diff.</th>-->
+        <th>LTP</th>
+        <th>Qty.</th>
+<!--        <th>PClose</th>-->
+        <th>Open</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${data}">
+        <td th:text="${row.key}"></td>
+        <td th:text="${row.value['High']}"></td>
+        <td th:text="${row.value['% Change']}"></td>
+        <td th:text="${row.value['Low']}"></td>
+<!--        <td th:text="${row.value['Diff']}"></td>-->
+        <td th:text="${row.value['LTP']}"></td>
+        <td th:text="${row.value['Qty.']}"></td>
+<!--        <td th:text="${row.value['PClose']}"></td>-->
+        <td th:text="${row.value['Open']}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

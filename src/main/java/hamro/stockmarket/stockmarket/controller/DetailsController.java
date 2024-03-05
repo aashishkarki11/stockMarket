@@ -1,12 +1,16 @@
 package hamro.stockmarket.stockmarket.controller;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
+import hamro.stockmarket.stockmarket.entity.Stock;
 import hamro.stockmarket.stockmarket.exception.NotFoundException;
+import hamro.stockmarket.stockmarket.service.StockService;
 import hamro.stockmarket.stockmarket.service.impl.MeroLaganiScrapperService;
+import hamro.stockmarket.stockmarket.service.impl.StockScheduleService;
 import hamro.stockmarket.stockmarket.util.ValidationUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -15,17 +19,24 @@ import java.io.IOException;
  * This class provides endpoints for retrieving stock market data and sending it via
  * Telegram. Author: [Aashish karki]
  */
-@RestController
+@Controller
 public class DetailsController {
   private final SendMessageService sendMessageService;
+  private final StockScheduleService stockScheduleService;
+  private final StockService stockService;
 
   /**
    * Constructs a new DetailsController with the specified services.
    *
-   * @param sendMessageService The service for sending messages via Telegram.
+   * @param sendMessageService   The service for sending messages via Telegram.
+   * @param stockScheduleService
+   * @param stockService
    */
-  public DetailsController(SendMessageService sendMessageService) {
+  public DetailsController(SendMessageService sendMessageService,
+      StockScheduleService stockScheduleService, StockService stockService) {
     this.sendMessageService = sendMessageService;
+    this.stockScheduleService = stockScheduleService;
+    this.stockService = stockService;
   }
 
   /**
@@ -41,5 +52,15 @@ public class DetailsController {
     }
     String scrapedData = MeroLaganiScrapperService.getStockQuote(symbol);
     sendMessageService.sendStockDetail(scrapedData);
+  }
+
+  @GetMapping("/liveData")
+  public String getLiveData(Model model) {
+    try {
+      model.addAttribute("data", stockScheduleService.getStockDataLive());
+      return "stock/live";
+    } catch (Exception e) {
+      throw new RuntimeException("hey error aayo");
+    }
   }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -116,6 +117,7 @@ public class IpoNewsService {
         log.info("stockData : {}", stockDataMap);
         String liveData = objectMapper.writeValueAsString(stockDataMap);
         stockDto.setStockDetails(liveData);
+        stockDto.setLocalDateTime(LocalDateTime.now());
         stockService.createStock(stockDto);
 
         return stockDataMap;

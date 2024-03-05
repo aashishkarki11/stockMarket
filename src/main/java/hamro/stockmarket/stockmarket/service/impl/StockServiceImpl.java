@@ -34,7 +34,12 @@ public class StockServiceImpl implements StockService {
   public void createStock(StockDto stockDto) {
     Stock stock = new Stock();
     stock.setStockDetails(stockDto.getStockDetails());
-
+    stock.setCreatedAt(stockDto.getLocalDateTime());
     stockRecordRepo.save(stock);
+  }
+
+  @Override
+  public Stock getLastData() {
+   return stockRecordRepo.findLatestStock();
   }
 }

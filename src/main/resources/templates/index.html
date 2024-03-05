@@ -11,11 +11,10 @@
 <script>
     function openAuthPopup() {
         var clientId = "441315144523-1sqr3n8fc7j3a3lp9ehdobid3avmcet0.apps.googleusercontent.com";
-        var redirectUri = "http://localhost:8080/oauth2/callback"; // Change "/redirect" to your actual redirect URI
-        var state = {}; // Change state as needed
+        var redirectUri = "http://localhost:8080/oauth2/callback";
         const scopes = [
-            'profile', // Grants access to basic profile information
-            'email' // Grants access to the user's email address
+            'profile',
+            'email'
         ];
 
         const authUrl = 'https://accounts.google.com/o/oauth2/auth' +
@@ -26,10 +25,8 @@
             '&prompt=consent' +
             '&scope=' + encodeURIComponent(scopes.join(' '));
 
-        // Open the authorization URL in a popup window
         var popup = window.open(authUrl, 'authPopup', 'width=500,height=600');
 
-        // Handle popup window events if needed
         if (popup) {
             popup.focus();
         } else {

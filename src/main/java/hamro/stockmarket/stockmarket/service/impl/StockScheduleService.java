@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Service class responsible for scheduling periodic retrieval of stock data and sending
@@ -71,10 +73,10 @@ public class StockScheduleService {
    * specify the schedule.
    * </p>
    */
-  @Scheduled(cron = "0 0/10 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
-  public void getStockDataLive() {
+  @Scheduled(cron = "0 0/5 11-15 * * SUN-THU", zone = "Asia/Kathmandu")
+  public Map<String, Map<String, String>> getStockDataLive() {
     try {
-      ipoNewsService.getLiveMarketData();
+      return ipoNewsService.getLiveMarketData();
     } catch (Exception e) {
       throw new NotFoundException("Error getting Live Market Data" + e.getMessage());
     }
