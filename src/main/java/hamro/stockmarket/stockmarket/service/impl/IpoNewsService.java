@@ -1,7 +1,7 @@
 package hamro.stockmarket.stockmarket.service.impl;
 
 import hamro.stockmarket.stockmarket.Telegram.service.SendMessageService;
-import hamro.stockmarket.stockmarket.service.StockService;
+import hamro.stockmarket.stockmarket.dto.StockInfoDTO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,12 +28,8 @@ public class IpoNewsService {
   private static final Logger log = LoggerFactory.getLogger(IpoNewsService.class);
   private final SendMessageService sendMessageService;
 
-  private final StockService stockService;
-
-  public IpoNewsService(SendMessageService sendMessageService,
-      StockService stockService) {
+  public IpoNewsService(SendMessageService sendMessageService) {
     this.sendMessageService = sendMessageService;
-    this.stockService = stockService;
   }
 
   /**
@@ -127,5 +125,73 @@ public class IpoNewsService {
 
     log.info("Empty Data sorry");
     return new HashMap<>();
+  }
+
+  /**
+   * Retrieves the top gainers and losers data from the Merolagani website. The method
+   * scrapes the data from the Latest Market page
+   * (https://merolagani.com/LatestMarket.aspx) and constructs a string containing
+   * information about the top gainers and losers. The information includes the stock
+   * symbol, last traded price, percent change, and quantity. The method returns the
+   * constructed string containing the top gainers and losers data.
+   *
+   * @return A string containing information about the top gainers and losers.
+   * @throws IOException If an I/O error occurs while connecting to or reading from the
+   *                     website.
+   */
+  public static String getTopGainersAndLosers() throws IOException {
+    StringBuilder result = new StringBuilder();
+
+    String apiUrl = "https://merolagani.com/LatestMarket.aspx";
+    Document doc = Jsoup.connect(apiUrl).get();
+
+    Element gainersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveGainers").first();
+    if (gainersTable != null) {
+      result.append("---- Top Gainers ----\n");
+      List<StockInfoDTO> gainers = scrapeTableData(gainersTable);
+      gainers.forEach(gainer -> result.append(gainer.toString()).append("\n"));
+    } else {
+      result.append("Top gainers table not found.\n");
+    }
+
+    Element losersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveLosers").first();
+    if (losersTable != null) {
+      result.append("---- Top Losers  ----\n");
+      List<StockInfoDTO> losers = scrapeTableData(losersTable);
+      losers.forEach(loser -> result.append(loser.toString()).append("\n"));
+    } else {
+      result.append("Top losers table not found.\n");
+    }
+
+    return result.toString();
+  }
+
+  /**
+   * Scrapes the data from the HTML table and constructs a list of StockInfoDTO objects.
+   * The method iterates through the rows of the HTML table, extracts information about
+   * each stock (symbol, last traded price, percent change, and quantity), and creates
+   * StockInfoDTO objects with this information. These objects are then added to a list,
+   * which is returned by the method.
+   *
+   * @param table The HTML table element containing the stock information.
+   * @return A list of StockInfoDTO objects containing information about the stocks.
+   */
+  private static List<StockInfoDTO> scrapeTableData(Element table) {
+    List<StockInfoDTO> stockInfoList = new ArrayList<>();
+    Elements rows = table.select("tr");
+    for (Element row : rows) {
+      Elements cells = row.select("td");
+      if (!cells.isEmpty()) {
+        String symbol = cells.get(0).text();
+        String lastTradedPrice = cells.get(1).text();
+        String percentChange = cells.get(2).text();
+        String quantity = cells.get(6).text();
+
+        stockInfoList.add(
+            new StockInfoDTO(symbol, lastTradedPrice, percentChange, quantity));
+      }
+    }
+
+    return stockInfoList;
   }
 }

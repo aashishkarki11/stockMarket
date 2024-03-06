@@ -44,7 +44,7 @@ public class StockScheduleService {
   }
 
   /**
-   * Scheduled method to fetch stock data periodically and send it to Telegram.
+   * Scheduled method to fetch high and low data periodically and send it to Telegram.
    * <p>
    * This method is annotated with {@code @Scheduled} to execute periodically with an
    * initial delay and fixed delay. It retrieves stock data for the configured stock
@@ -53,9 +53,9 @@ public class StockScheduleService {
    *
    * @throws IOException if an I/O exception occurs during data retrieval
    */
-  @Scheduled(initialDelay = 10000000, fixedDelay = 10000000)
-  public void schedulerStockData() throws IOException {
-    String scrapedData = MeroLaganiScrapperService.getStockQuote(stockSymbol);
+  @Scheduled(cron = "0 0 15 ? * SUN-THU", zone = "Asia/Kathmandu")
+  public void topGainerAndLoserData() throws IOException {
+    String scrapedData = IpoNewsService.getTopGainersAndLosers();
     sendMessageService.sendStockDetail(scrapedData);
   }
 

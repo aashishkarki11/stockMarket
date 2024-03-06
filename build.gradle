@@ -44,6 +44,10 @@ dependencies {
     /*Scrapping dependency*/
     implementation 'org.jsoup:jsoup:1.15.3'
 
+    /*webSocket*/
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+
     /*re-try dependencies*/
     implementation 'org.springframework.retry:spring-retry:2.0.5'
 
