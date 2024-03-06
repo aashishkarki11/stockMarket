@@ -145,9 +145,12 @@ public class IpoNewsService {
     String apiUrl = "https://merolagani.com/LatestMarket.aspx";
     Document doc = Jsoup.connect(apiUrl).get();
 
+    String header = "Sym       | LTP        | %CH       | QTY        ";
+
     Element gainersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveGainers").first();
     if (gainersTable != null) {
       result.append("---- Top Gainers ----\n");
+      result.append(header).append("\n");
       List<StockInfoDTO> gainers = scrapeTableData(gainersTable);
       gainers.forEach(gainer -> result.append(gainer.toString()).append("\n"));
     } else {
@@ -157,6 +160,7 @@ public class IpoNewsService {
     Element losersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveLosers").first();
     if (losersTable != null) {
       result.append("---- Top Losers  ----\n");
+      result.append(header).append("\n");
       List<StockInfoDTO> losers = scrapeTableData(losersTable);
       losers.forEach(loser -> result.append(loser.toString()).append("\n"));
     } else {
@@ -165,7 +169,6 @@ public class IpoNewsService {
 
     return result.toString();
   }
-
   /**
    * Scrapes the data from the HTML table and constructs a list of StockInfoDTO objects.
    * The method iterates through the rows of the HTML table, extracts information about
