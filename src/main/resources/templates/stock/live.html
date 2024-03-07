@@ -42,15 +42,30 @@
             margin-bottom: 20px;
             float: right;
         }
+        .telegram-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
+        .telegram-link {
+            text-decoration: none;
+            color: #0088cc;
+            font-weight: bold;
+        }
+        .telegram-link:hover {
+            color: #005580;
+        }
     </style>
 </head>
 <body>
 
-<!-- Add search input and button -->
 <div class="search-container">
     <input type="text" id="search-input" placeholder="Search symbol...">
     <button id="search-btn">Search</button>
 </div>
+
+<a href="https://t.me/Nepsestock_bot" target="_blank" class="telegram-link">
+    <img src="icon/telegram-icon.png" alt="Telegram" class="telegram-icon">Bot</a>
 
 <table id="data-table">
     <thead>
@@ -76,7 +91,6 @@
     </tr>
     </tbody>
 </table>
-
 
 <script>
     document.getElementById('search-btn').addEventListener('click', function() {
