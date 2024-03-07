@@ -38,7 +38,6 @@ public class StockInfoDTO {
    */
   @Override
   public String toString() {
-    // Adding vertical lines as separators between columns
     return String.format("%s | %s | %s | %s", padRight(symbol, 8),
         padRight(lastTradedPrice, 10), padRight(percentChange, 8),
         padRight(quantity, 10));

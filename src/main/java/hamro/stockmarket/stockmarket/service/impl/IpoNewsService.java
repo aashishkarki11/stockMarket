@@ -53,11 +53,13 @@ public class IpoNewsService {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy");
       String formattedDate = todayDate.format(formatter);
       String result = """
-          Ipo Alert:
+          Stock Market News Alert 🚨:
                     
           CompanyName: %s
+                    
           Date: %s
           """.formatted(ipoName, formattedDate);
+
       log.info("result: " + result);
       if (formattedDate.equals(date)) {
         sendMessageService.sendStockDetail(result);
@@ -149,17 +151,18 @@ public class IpoNewsService {
 
     Element gainersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveGainers").first();
     if (gainersTable != null) {
-      result.append("---- Top Gainers ----\n");
+      result.append("---- Top Gainers \uD83D\uDCC8 \uD83D\uDE80 \uD83D\uDE80 ----\n");
       result.append(header).append("\n");
       List<StockInfoDTO> gainers = scrapeTableData(gainersTable);
       gainers.forEach(gainer -> result.append(gainer.toString()).append("\n"));
+      result.append("\n");
     } else {
       result.append("Top gainers table not found.\n");
     }
 
     Element losersTable = doc.select("#ctl00_ContentPlaceHolder1_LiveLosers").first();
     if (losersTable != null) {
-      result.append("---- Top Losers  ----\n");
+      result.append("---- Top Losers  \uD83D\uDCC9 \uD83D\uDCA3 \uD83D\uDCA3 ----\n");
       result.append(header).append("\n");
       List<StockInfoDTO> losers = scrapeTableData(losersTable);
       losers.forEach(loser -> result.append(loser.toString()).append("\n"));
@@ -169,6 +172,7 @@ public class IpoNewsService {
 
     return result.toString();
   }
+
   /**
    * Scrapes the data from the HTML table and constructs a list of StockInfoDTO objects.
    * The method iterates through the rows of the HTML table, extracts information about
