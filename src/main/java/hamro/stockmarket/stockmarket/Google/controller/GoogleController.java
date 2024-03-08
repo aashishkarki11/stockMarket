@@ -52,7 +52,7 @@ public class GoogleController {
       String accessToken = googleResponseDto.getAccessToken();
       userService.createUser(googleResponseDto.getIdToken());
       if (ValidationUtil.checkIsNullAndEmpty(accessToken)) {
-        throw new TokenGenerationException("Access token is null : {}");
+        throw new TokenGenerationException("Access token is null");
       }
       return "success";
     } catch (Exception e) {

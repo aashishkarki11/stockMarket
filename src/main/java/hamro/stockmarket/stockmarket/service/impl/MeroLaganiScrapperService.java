@@ -31,6 +31,14 @@ public class MeroLaganiScrapperService {
    */
   @Retryable(interceptor = "retryData", retryFor = IOException.class)
   public static String getStockQuote(String symbol) {
+    if (!symbol.matches("^/?.*")) {
+      throw new NotFoundException("Invalid symbol format. It should start with '/' or be alphanumeric.");
+    }
+
+    if (symbol.startsWith("/")) {
+      symbol = symbol.substring(1);
+    }
+
     try {
       String apiUrl = String.format("https://merolagani.com/CompanyDetail.aspx?symbol=%s",
           symbol);
