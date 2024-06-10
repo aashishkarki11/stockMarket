@@ -132,7 +132,7 @@ public class IpoNewsService {
   /**
    * Retrieves the top gainers and losers data from the Merolagani website. The method
    * scrapes the data from the Latest Market page
-   * (https://merolagani.com/LatestMarket.aspx) and constructs a string containing
+   * (<a href="https://merolagani.com/LatestMarket.aspx">...</a>) and constructs a string containing
    * information about the top gainers and losers. The information includes the stock
    * symbol, last traded price, percent change, and quantity. The method returns the
    * constructed string containing the top gainers and losers data.
